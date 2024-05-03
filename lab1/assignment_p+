@@ -1,0 +1,55 @@
+CREATE TABLE Department(
+DepartmentName VARCHAR(255) PRIMARY KEY NOT NULL,
+BuildingNr INT NOT NULL
+);
+
+CREATE TABLE Employee(
+ID INT NOT NULL PRIMARY KEY,
+Name VARCHAR(255) NOT NULL, 
+PhoneNr VARCHAR(255) NOT NULL,
+DepartmentName VARCHAR(255) NOT NULL,
+StartDate DATE NOT NULL,
+MentorID INT,
+CONSTRAINT fk_department
+  FOREIGN KEY (DepartmentName)
+    REFERENCES Department(DepartmentName),
+CONSTRAINT fk_Mentor
+  FOREIGN KEY (MentorID)
+    REFERENCES Employee(ID)
+);
+
+CREATE TABLE Doctor(
+ID INT NOT NULL PRIMARY KEY,
+Specialization VARCHAR(255) NOT NULL,
+RoomNr INT NOT NULL,
+CONSTRAINT fk_doctor
+  FOREIGN KEY (ID)
+    REFERENCES Employee (ID)
+);
+
+CREATE TABLE nurse(
+ID INT NOT NULL PRIMARY KEY,
+Degree VARCHAR(255) NOT NULL,
+CONSTRAINT fk_nurse
+  FOREIGN KEY (ID)
+    REFERENCES Employee (ID)
+); 
+
+CREATE TABLE patient(
+ID INT PRIMARY KEY NOT NULL,
+Diagnosises VARCHAR(255),
+Age INT,
+Name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE treating (
+DoctorID INT NOT NULL,
+PatientID INT NOT NULL,
+PRIMARY KEY (DoctorID, PatientID),
+CONSTRAINT fk_doctor
+  FOREIGN KEY (DoctorID)
+    REFERENCES Doctor (ID),
+CONSTRAINT fk_patient
+  FOREIGN KEY (PatientID)
+    REFERENCES Patient (ID)
+);

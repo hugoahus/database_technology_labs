@@ -1,0 +1,91 @@
+CREATE TABLE Books (
+   bookID integer PRIMARY KEY,
+   title varchar(100) NOT NULL,
+   pages integer CONSTRAINT no_negative_pages CHECK (pages >= 0) NOT NULL
+);
+
+CREATE TABLE Resources (
+   physicalID integer PRIMARY KEY,
+   bookID integer REFERENCES books NOT NULL,
+   damaged BOOLEAN DEFAULT false
+);
+
+CREATE TABLE Prequels (
+   bookID INTEGER REFERENCES books,
+   prequelID INTEGER REFERENCES books(bookID),
+   PRIMARY KEY (bookID,prequelID)
+);
+
+CREATE TABLE Edition (
+   bookID integer REFERENCES books,
+   ISBN varchar(20) NOT NULL,
+   edition Integer,
+   publisher varchar(100),
+   DoP Date,
+   PRIMARY KEY (bookID),
+   CONSTRAINT no_negative_edition CHECK (edition >= 0)
+);
+
+CREATE TABLE Author (
+   bookID integer REFERENCES books,
+   author varchar(100),
+   PRIMARY KEY (bookID, author)
+);
+
+CREATE TABLE Genre (
+   bookID integer REFERENCES books,
+   genre varchar(100),
+   PRIMARY KEY (bookID, genre)
+);
+
+CREATE TABLE Language (
+   bookID INTEGER REFERENCES books,
+   language varchar(100),
+   PRIMARY KEY (bookID, language)
+);
+
+CREATE TABLE Users (
+   userID integer PRIMARY KEY,
+   name varchar(100) NOT NULL,
+   address varchar(100) NOT NULL,
+   email varchar(50) CONSTRAINT check_email_domain CHECK (email LIKE '%@kth.se') NOT NULL
+);
+
+CREATE TABLE Students (
+   userID integer REFERENCES users,
+   program varchar(100) NOT NULL,
+   PRIMARY KEY (userID)
+);
+
+CREATE TABLE Admins (
+   userID integer REFERENCES users,
+   department varchar(100) NOT NULL,
+   phoneNumber varchar(15) NOT NULL,
+   PRIMARY KEY (userID)
+);
+
+CREATE TABLE Borrowing (
+   borrowingID Integer PRIMARY KEY,
+   physicalID integer REFERENCES resources NOT NULL,
+   userID integer REFERENCES users NOT NULL,
+   DoB DATE DEFAULT CURRENT_DATE,
+   DoR DATE,
+   DoE DATE DEFAULT CURRENT_DATE+7,
+   CONSTRAINT check_return_date CHECK (DoR IS NULL OR DoR >= DoB)
+);
+
+CREATE TYPE pMethod AS ENUM ('Klarna', 'Swish', 'Card','Cash');
+
+CREATE TABLE Fines (
+   borrowingID integer REFERENCES borrowing,
+   Amount integer NOT NULL,
+   PRIMARY KEY (borrowingID),
+   CONSTRAINT no_negative_fine CHECK (Amount >= 0)
+);
+ 
+CREATE TABLE TRANSACTIONS (
+   transactionID integer PRIMARY KEY,
+   borrowingID integer REFERENCES borrowing NOT NULL,
+   paymentMethod pMethod NOT NULL,
+   DoP DATE NOT NULL
+ );

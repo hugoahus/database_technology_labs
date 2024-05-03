@@ -1,0 +1,71 @@
+CREATE TABLE book(
+PhysicalID INT NOT NULL PRIMARY KEY,
+Title VARCHAR(255) NOT NULL,
+ISBN VARCHAR(255) NOT NULL,
+Author VARCHAR(255),
+Edition INT,
+Genre VARCHAR(255),
+Language VARCHAR(255),
+Publisher VARCHAR(255),
+DateOfPublication DATE,
+Prequel VARCHAR(255),
+Damage BOOL
+);
+
+CREATE TABLE borrowing(
+BorrowingID INT NOT NULL PRIMARY KEY,
+PhysicalID INT NOT NULL,
+UserID INT NOT NULL,
+DateOfBorrowing DATE,
+DueDate DATE,
+DateOfReturn DATE,
+CONSTRAINT fk_book
+FOREIGN KEY(PhysicalID) 
+REFERENCES book(PhysicalID),
+CONSTRAINT fk_lib_user
+FOREIGN KEY(UserID) 
+REFERENCES lib_user(UserID)
+);
+
+CREATE TABLE lib_user(
+UserID INT NOT NULL PRIMARY KEY,
+FullName VARCHAR(255),
+Address VARCHAR(255) NOT NULL,
+Email VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE student(
+UserID INT NOT NULL PRIMARY KEY,
+Programme VARCHAR(255) NOT NULL,
+CONSTRAINT fk_lib_user
+FOREIGN KEY(UserID) 
+REFERENCES lib_user(UserID)
+);
+
+CREATE TABLE admin(UserID INT NOT NULL,
+UserID INT NOT NULL PRIMARY KEY,
+PhoneNumber VARCHAR(255) NOT NULL,
+Department VARCHAR(255) NOT NULL,
+CONSTRAINT fk_lib_user
+FOREIGN KEY(UserID) 
+REFERENCES lib_user(UserID)
+);
+
+CREATE TABLE fines(
+BorrowingID INT NOT NULL PRIMARY KEY,
+Amount INT NOT NULL,
+CONSTRAINT fk_borrowing
+FOREIGN KEY(BorrowingID) 
+REFERENCES borrowing(BorrowingID)
+);
+
+CREATE TABLE transaction(
+TransactionID INT NOT NULL PRIMARY KEY,
+BorrowingID INT NOT NULL,
+Amount INT NOT NULL,
+DateOfPayment DATE NOT NULL,
+PaymentMethod VARCHAR(255) NOT NULL,
+CONSTRAINT fk_borrowing
+FOREIGN KEY(BorrowingID) 
+REFERENCES borrowing(BorrowingID)
+);

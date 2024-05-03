@@ -1,0 +1,38 @@
+INSERT INTO book(physicalid, title, isbn, author, edition, language, publisher, dateofpublication, prequel, damage) VALUES (1, 'The Kite Runner', '978-1594480003', 'Khaled Hosseini', 1, 'English', 'Riverhead Books', '2005-06-15', 'A Thousand Splendid Suns', FALSE);
+INSERT INTO book(physicalid, title, isbn, author, edition, language, publisher, dateofpublication, prequel, damage) VALUES
+(2, 'Harry Potter and the Philosopher''s Stone', '978-2070542715', 'J.K. Rowling', 3, 'French', 'Gallimard Jeunesse', '1997-01-22', 'Fantastic Beasts and Where to Find Them', FALSE),
+(3, 'The Fault in Our Stars', '978-6073133912', 'John Green', NULL, 'Spanish', 'Editorial Océano de México', '2016-10-04', 'Looking for Alaska', TRUE),
+(4, 'The Girl with the Dragon Tattoo', '978-0307454546', 'Stieg Larsson', NULL, 'Swedish', 'Vintage Crime/Black Lizard', '2010-03-30', 'The Girl in the Spider''s Web', TRUE),
+(5, 'Sapiens: A Brief History of Humankind', '978-0062316097', 'Yuval Noah Harari', 5, 'Hebrew', 'Harper', '2014-08-11', 'Homo Deus: A Brief History of Tomorrow', FALSE),
+(6, 'The Kite Runner', '978-1594480003', 'Khaled Hosseini', 1, 'English', 'Riverhead Books', '2005-06-15', 'A Thousand Splendid Suns', TRUE),
+(7, 'Harry Potter and the Philosopher''s Stone', '978-2070542715', 'J.K. Rowling', 3, 'French', 'Gallimard Jeunesse', '1997-01-22', 'Fantastic Beasts and Where to Find Them', TRUE);
+
+
+INSERT INTO borrowing(BorrowingID, PhysicalID, UserID, DateOfBorrowing, DueDate, DateOfReturn) VALUES
+(301, 1, 101, '2023-11-16', '2023-12-01', NULL),
+(302, 4, 102, '2023-09-28', '2023-11-15', NULL),
+(303, 3, 103, '2023-09-10', '2023-10-10', '2023-10-10'),
+(304, 6, 104, '2023-08-15', '2023-10-15', '2023-10-18');
+
+
+
+INSERT INTO lib_user(UserID, Email, FullName, Address) VALUES 
+(101, 'bertil@gmail.com', 'Bertil Svanberg', 'Revhaksvägen 8'),
+(102, 'erik@gmail.com', 'Erik Persson', 'Bofinksvägen 12'),
+(103, 'nils@gmail.com', 'Nils Andersson', 'Byvägen 3'),
+(104, 'alfred@gmail.com', 'Alfred Larsson', 'Skalbaggevägen 14'),
+(105, 'karl@gmail.com', 'Karl Eriksson', 'Pilgrimsvägen 11'),
+(106, 'filip@gmail.com', 'Filip Gustavsson', 'Sotvägen 7');
+
+INSERT INTO student (UserID, Programme) VALUES
+(101, 'Datateknik'),
+(102, 'Systemteknik'),
+(103, 'Maskinteknik'),
+(104, 'Medieteknik'),
+(105, 'Kemiteknik');
+
+INSERT INTO admin (UserID, Department, PhoneNumber) VALUES
+(106, 'library administration', '0709457398');
+
+INSERT INTO fines(BorrowingID, Amount) VALUES
+(301, 200);
